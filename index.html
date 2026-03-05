@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10G - Happy Women's Day</title>
+    <style>
+        body { background: #fff0f6; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        #game-container { max-width: 500px; width: 100%; background: #fff; padding: 20px; border-radius: 15px; border: 3px solid #ff69b4; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .box-icon { font-size: 50px; margin-bottom: 10px; }
+        .message { font-size: 16px; line-height: 1.6; color: #444; margin-bottom: 20px; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 8px 0; background: #ff69b4; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .btn:hover { background: #ff1493; }
+        #list-girls { display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; text-align: left; }
+        .name-tag { background: #ffe3ec; color: #d63384; padding: 6px; border-radius: 5px; font-size: 12px; font-weight: bold; border: 1px solid #ffc1d6; }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="icon" class="box-icon">🕵️</div>
+    <div id="content" class="message">Đang khởi động hành trình 8/3 cho lớp 10G...</div>
+    <div id="actions"></div>
+    <div id="list-girls"></div>
+</div>
+
+<script>
+    // Danh sách từ file gửi: 29 bạn nữ + Vũ Gia Vương 
+    const girls = [
+        "Quảng Đoàn Minh Anh", "Nguyễn Ngọc Ánh", "Trần Thị Ánh Băng", "Đoàn Thị Thảo Chi", 
+        "Trần Ngọc Diệp", "Vũ Thị Mai Duyên", "Nguyễn Thị Hồng Gấm", "Vũ Quỳnh Hương", 
+        "Vũ Thị Thu Huyền", "Tô Thị Phương Lan", "Lại Nhất Bảo Linh", "Nguyễn Hà Linh", 
+        "Trần Phương Linh", "Vũ Tuyết Minh", "Nguyễn Thị Nhàn", "Vũ Thị Thanh Nhàn", 
+        "Nguyễn Đỗ Oanh Oanh", "Nguyễn Kiều Oanh", "Lê Ngọc Phương", "Nguyễn Thu Phương", 
+        "Đỗ Thị Hương Quỳnh", "Vũ Như Quỳnh", "Nguyễn Thị Phương Thảo", "Nguyễn Thị Thanh Thảo", 
+        "Trần Thị Minh Thư", "Bùi Hoài Thương", "Bùi Thị Thùy Trang", "Tạ Tường Vy", "Bùi Thị Hải Yến", "Vũ Gia Vương"
+    ];
+
+    const data = {
+        start: {
+            icon: "🏫",
+            text: "Chào thám tử 10G! Một món quà bí mật dành cho phái nữ đang bị giấu kín. Bạn có muốn đi tìm không?",
+            btns: [{ t: "Bắt đầu tìm kiếm", n: "step2" }]
+        },
+        step2: {
+            icon: "🎁",
+            text: "Bạn đã tìm thấy hộp quà bí mật tại phòng học lớp 10G! Bạn có muốn mở nó ra ngay bây giờ?",
+            btns: [{ t: "Mở hộp quà ngay", n: "end" }]
+        },
+        end: {
+            icon: "🌸",
+            text: "Nhân ngày 8/3, thay mặt cánh mày râu, xin gửi lời chúc tốt đẹp nhất đến toàn thể các bạn nữ trong lớp mình. Chúc các bạn luôn xinh đẹp, rạng rỡ và giữ mãi nụ cười trên môi. Mong rằng các bạn sẽ luôn tự tin, học tập thật tốt và sớm đạt được những dự định của bản thân. Chúc các bạn một ngày ngập tràn hoa, quà và những lời chúc ngọt ngào nhất. Happy Women's Day!",
+            btns: [{ t: "Xem danh sách vinh danh", n: "list" }]
+        }
+    };
+
+    function show(key) {
+        const s = data[key === 'list' ? 'end' : key];
+        document.getElementById('icon').innerText = s.icon;
+        document.getElementById('content').innerText = s.text;
+        const act = document.getElementById('actions');
+        const grid = document.getElementById('list-girls');
+        
+        act.innerHTML = '';
+        if(key === 'list') {
+            grid.style.display = 'grid';
+            grid.innerHTML = girls.map(g => `<div class="name-tag">✨ ${g}</div>`).join('');
+            act.innerHTML = `<button class="btn" onclick="location.reload()">Chơi lại</button>`;
+        } else {
+            s.btns.forEach(b => {
+                const button = document.createElement('button');
+                button.className = 'btn';
+                button.innerText = b.t;
+                button.onclick = () => show(b.n);
+                act.appendChild(button);
+            });
+        }
+    }
+
+    show('start');
+</script>
+</body>
+</html>
