@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>10G - Nhiệm Vụ 8/3</title>
+    <style>
+        body { background: #fff5f8; font-family: 'Segoe UI', Arial, sans-serif; display: flex; justify-content: center; padding-top: 20px; }
+        #game-box { width: 95%; max-width: 550px; background: #fff; padding: 25px; border-radius: 20px; border: 4px solid #ff69b4; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .icon { font-size: 60px; margin-bottom: 15px; text-align: center; }
+        .text { font-size: 17px; color: #444; line-height: 1.6; margin-bottom: 25px; text-align: center; min-height: 100px; }
+        .btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #ff69b4; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn:hover { background: #ff1493; transform: scale(1.02); }
+        .name-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 20px; display: none; max-height: 300px; overflow-y: auto; padding: 10px; background: #fff0f5; border-radius: 10px; }
+        .name-item { background: white; color: #d63384; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; text-align: center; border: 1px solid #ffc1d6; box-shadow: 1px 1px 3px rgba(0,0,0,0.05); }
+        h3 { color: #d63384; text-align: center; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<div id="game-box">
+    <h3>🌸 LỚP 10G - MISSION 8/3 🌸</h3>
+    <div id="icon" class="icon">🔍</div>
+    <div id="content" class="text">Đang kết nối dữ liệu lớp 10G...</div>
+    <div id="options"></div>
+    <div id="girls-list" class="name-grid"></div>
+</div>
+
+<script>
+    // Danh sách các bạn nữ lớp 10G từ file bạn gửi 
+    const girls10G = [
+        "Quảng Đoàn Minh Anh", "Nguyễn Ngọc Ánh", "Trần Thị Ánh Băng", "Đoàn Thị Thảo Chi", 
+        "Trần Ngọc Diệp", "Vũ Thị Mai Duyên", "Nguyễn Thị Hồng Gấm", "Vũ Quỳnh Hương", 
+        "Vũ Thị Thu Huyền", "Tô Thị Phương Lan", "Lại Nhất Bảo Linh", "Nguyễn Hà Linh", 
+        "Trần Phương Linh", "Vũ Tuyết Minh", "Nguyễn Thị Nhàn", "Vũ Thị Thanh Nhàn", 
+        "Nguyễn Đỗ Oanh Oanh", "Nguyễn Kiều Oanh", "Lê Ngọc Phương", "Nguyễn Thu Phương", 
+        "Đỗ Thị Hương Quỳnh", "Vũ Như Quỳnh", "Nguyễn Thị Phương Thảo", "Nguyễn Thị Thanh Thảo", 
+        "Trần Thị Minh Thư", "Bùi Hoài Thương", "Bùi Thị Thùy Trang", "Tạ Tường Vy", "Bùi Thị Hải Yến"
+    ];
+
+    const story = {
+        start: {
+            icon: "🏫",
+            text: "Sáng sớm tại lớp 10G, các bạn nam đang bí mật chuẩn bị một kế hoạch đặc biệt. Bạn sẽ tham gia chứ?",
+            btns: [{ t: "Bắt đầu kế hoạch!", next: "find" }]
+        },
+        find: {
+            icon: "🎁",
+            text: "Một chiếc hộp chứa đầy lời chúc và tình cảm của phái nam 10G đã sẵn sàng. Giờ là lúc trao tận tay cho các chị em!",
+            btns: [{ t: "MỞ QUÀ & GỬI LỜI CHÚC", next: "win" }]
+        },
+        win: {
+            icon: "💐",
+            text: "Nhân ngày 8/3, thay mặt cánh mày râu, xin gửi lời chúc tốt đẹp nhất đến toàn thể các bạn nữ trong lớp mình. Chúc các bạn luôn xinh đẹp, rạng rỡ và giữ mãi nụ cười trên môi. Mong rằng các bạn sẽ luôn tự tin, học tập thật tốt và sớm đạt được những dự định của bản thân. Chúc các bạn một ngày ngập tràn hoa, quà và những lời chúc ngọt ngào nhất. Happy Women's Day!",
+            btns: [{ t: "CHƠI LẠI", next: "start" }]
+        }
+    };
+
+    function go(key) {
+        const s = story[key];
+        document.getElementById('icon').innerText = s.icon;
+        document.getElementById('content').innerText = s.text;
+        const opt = document.getElementById('options');
+        const grid = document.getElementById('girls-list');
+        
+        opt.innerHTML = '';
+        grid.innerHTML = '';
+        grid.style.display = 'none';
+
+        if(key === 'win') {
+            grid.style.display = 'grid';
+            girls10G.forEach(name => {
+                const div = document.createElement('div');
+                div.className = 'name-item';
+                div.innerText = "✨ " + name;
+                grid.appendChild(div);
+            });
+        }
+
+        s.btns.forEach(b => {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.innerText = b.t;
+            btn.onclick = () => {
+                if(b.next === 'start') location.reload();
+                else go(b.next);
+            };
+            opt.appendChild(btn);
+        });
+    }
+
+    go('start');
+</script>
+
+</body>
+</html>
